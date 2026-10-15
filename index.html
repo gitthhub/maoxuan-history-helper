@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="《毛泽东选集》第一至四卷精选伴读：联系历史事件、人物与地理背景，阅读可查来源的文章解说。">
+<title>《毛选》历史伴读 · 1840—1949</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="assets/styles.css">
+<script defer src="src/eras.js"></script><script defer src="src/territories.js"></script><script defer src="src/content.js"></script><script defer src="src/images.js"></script><script defer src="src/core.js"></script><script defer src="src/app.js"></script>
+</head>
+<body data-mobile-view="reading">
+<a class="skip-link" href="#right-panel-body">跳到阅读正文</a>
+<header class="site-header">
+ <div class="brand"><span class="brand-seal" aria-hidden="true">毛<br>选</span><div><h1>《毛选》历史伴读</h1><p>1840—1949 · 读文章，也读它所处的时代</p></div></div>
+ <div class="header-actions">
+  <div class="volume-filter" aria-label="筛选已收录篇目">
+   <button id="vol-btn-all" data-volume="all" aria-pressed="true">全部</button>
+   <button id="vol-btn-1" data-volume="1" aria-pressed="false">第一卷</button><button id="vol-btn-2" data-volume="2" aria-pressed="false">第二卷</button><button id="vol-btn-3" data-volume="3" aria-pressed="false">第三卷</button><button id="vol-btn-4" data-volume="4" aria-pressed="false">第四卷</button>
+  </div>
+  <div class="search-wrap"><label class="sr-only" for="global-search-input">搜索篇目、人物、事件或术语</label><input id="global-search-input" type="search" placeholder="搜索篇目、人物、事件…" autocomplete="off" aria-controls="search-results-dropdown" aria-expanded="false"><div id="search-results-dropdown" class="search-results" aria-label="搜索结果" hidden></div></div>
+  <button id="theme-toggle-btn" class="quiet-button" title="切换阅读配色" aria-label="切换为深色配色">月色</button><button id="about-btn" class="quiet-button">使用说明</button>
+ </div>
+</header>
+<nav id="era-tabs-container" class="era-tabs" aria-label="历史时期"></nav>
+<nav class="mobile-switch" aria-label="切换主要视图"><button data-view="reading" aria-pressed="true">阅读与查考</button><button data-view="map" aria-pressed="false">地图与年代</button></nav>
+<main class="workspace">
+ <section class="map-panel" aria-label="历史地理与年代">
+  <div class="map-stage">
+   <div id="historical-map" role="region" aria-label="高德底图上的历史势力大致范围、地点与战略方向示意">
+    <section class="map-overlay map-overview" aria-label="时期空间概览">
+     <div class="map-heading"><span class="eyebrow" id="map-era-badge"></span><h2 id="map-era-title"></h2></div>
+     <p class="territory-period" id="territory-period"></p>
+     <details class="map-description"><summary>时期背景与绘制依据</summary><p id="map-era-desc"></p><p id="map-context-note" class="scope-note"></p><div id="map-sources"></div></details>
+     <p class="map-caption" id="selected-map-date"></p>
+    </section>
+    <aside class="map-overlay map-legend" aria-label="势力范围图例">
+     <h3>势力范围图例</h3><ul id="map-legend-items"></ul>
+     <div class="territory-key"><span><i class="key-area"></i>势力范围 <i class="key-area guerrilla"></i>根据地 / 游击区</span><strong>示例范围仅为大致范围，不代表精确边界。</strong><span>重叠表示控制交错或阶段差异；未着色处不表示无势力。</span></div>
+     <p class="map-hint">滚轮缩放 · 拖动平移 · 点击色块查依据</p>
+    </aside>
+    <div class="map-actions">
+     <button id="reset-map-btn" class="map-overlay quiet-button">复位地图</button>
+     <details class="map-overlay map-controls"><summary>图层</summary><div class="layer-options"><label><input id="layer-toggle-polygons" type="checkbox" checked> 势力范围与名称</label><label><input id="layer-toggle-routes" type="checkbox" checked> 战略方向示意</label><label><input id="layer-toggle-articles" type="checkbox" checked> 篇目相关地点</label><label><input id="layer-toggle-events" type="checkbox" checked> 历史事件地点</label></div><p class="small muted" id="map-item-count"></p></details>
+    </div>
+   </div>
+   <div id="map-error" class="map-error" role="status" hidden></div>
+  </div>
+  <section class="timeline-panel" aria-label="按年代排列的篇目与事件"><div class="section-bar"><h2>年代索引</h2><div><button id="timeline-scope-btn" aria-pressed="true">仅看当前时期</button><button id="timeline-prev" aria-label="向前滚动年代索引">←</button><button id="timeline-next" aria-label="向后滚动年代索引">→</button></div></div><p class="timeline-note">事件与篇目按日期排序 · 卡片间距不代表时间跨度</p><div id="timeline-scroll-box" tabindex="0" aria-label="可横向滚动的年代卡片"><div id="timeline-track"></div></div></section>
+ </section>
+ <aside class="reader-panel" aria-label="伴读与查考">
+  <nav class="reader-tabs" aria-label="查考类别"><button id="tab-btn-companion" data-tab="companion" aria-pressed="true">伴读精解</button><button id="tab-btn-factions" data-tab="factions" aria-pressed="false">时期势力</button><button id="tab-btn-figures" data-tab="figures" aria-pressed="false">人物图鉴</button><button id="tab-btn-glossary" data-tab="glossary" aria-pressed="false">名词词典</button></nav>
+  <div class="reading-navigation"><button id="article-prev" aria-label="上一篇已收录文章">← 上一篇</button><span id="walkthrough-indicator"></span><button id="article-next" aria-label="下一篇已收录文章">下一篇 →</button></div>
+  <div class="reader-tools"><button id="bookmark-btn" aria-pressed="false">收藏本篇</button><label class="sr-only" for="bookmark-select">已收藏篇目与事件</label><select id="bookmark-select"><option value="">我的收藏</option></select><button id="share-btn">复制链接</button><div class="text-size"><button id="font-smaller" aria-label="减小正文字号">A−</button><button id="font-larger" aria-label="增大正文字号">A＋</button></div></div>
+  <div id="right-panel-body" tabindex="-1">
+   <div id="tab-content-companion"></div><div id="tab-content-factions" hidden></div>
+   <div id="tab-content-figures" hidden><label class="field-label" for="figure-search-input">查找人物</label><input id="figure-search-input" type="search" placeholder="姓名、别名或经历"><div id="figure-camps" class="chip-list"></div><div id="figures-list-container"></div></div>
+   <div id="tab-content-glossary" hidden><label class="field-label" for="glossary-search-input">查找历史术语</label><input id="glossary-search-input" type="search" placeholder="如：统一战线、三湾改编"><div id="glossary-list-container"></div></div>
+  </div>
+ </aside>
+</main>
+<div id="app-status" class="toast" role="status" aria-live="polite" hidden></div>
+<dialog id="about-dialog"><div class="dialog-heading"><h2>怎样使用这份伴读</h2><button id="close-about-btn" aria-label="关闭使用说明">关闭</button></div><p id="collection-summary"></p><p>这是第一至四卷的精选伴读，解说不替代原著。每篇下方提供原文核读入口与参考来源；尚未逐字核对的摘录会单独标识。阅读进度、收藏和字号仅保存在当前浏览器。</p><p>地图采用高德现代底图。半透明色块依据历史地图及文字资料概括主要势力范围，地图上方和色块弹窗注明参考时间。示例范围仅为大致范围，不代表精确边界。虚线区域包括根据地与游击活动区；重叠处可能表示控制交错或阶段差异。点击色块可查阅来源。</p><p>线路表示部队与行动的战略方向，不是精确道路。旧址名称与定位精度不同，地理位置以页面说明为准。新绘势力示意数据采用 CC BY-SA 4.0；原图作者及许可信息可从来源链接查阅。</p><p>本页需要联网加载地图。若地图服务暂时不可用，可以继续阅读与查考文字。</p><a href="https://www.marxists.org/chinese/maozedong/index.htm" target="_blank" rel="noopener noreferrer">查看《毛泽东选集》原文目录 ↗</a></dialog>
+<noscript><p class="noscript">请启用 JavaScript 以使用文章索引、地图与搜索。</p></noscript>
+</body></html>
