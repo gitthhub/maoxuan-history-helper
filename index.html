@@ -28,17 +28,20 @@
  <section class="map-panel" aria-label="历史地理与年代">
   <div class="map-stage">
    <div id="historical-map" role="region" aria-label="高德底图上的历史势力大致范围、地点与战略方向示意">
-    <section class="map-overlay map-overview" aria-label="时期空间概览">
+    <details class="map-overlay map-overview" aria-label="时期空间概览">
+     <summary>时期概览</summary><div class="map-overlay-content">
      <div class="map-heading"><span class="eyebrow" id="map-era-badge"></span><h2 id="map-era-title"></h2></div>
      <p class="territory-period" id="territory-period"></p>
      <details class="map-description"><summary>时期背景与绘制依据</summary><p id="map-era-desc"></p><p id="map-context-note" class="scope-note"></p><div id="map-sources"></div></details>
      <p class="map-caption" id="selected-map-date"></p>
-    </section>
-    <aside class="map-overlay map-legend" aria-label="势力范围图例">
-     <h3>势力范围图例</h3><ul id="map-legend-items"></ul>
+     </div>
+    </details>
+    <details class="map-overlay map-legend" aria-label="势力范围图例">
+     <summary>势力图例</summary><div class="map-overlay-content"><ul id="map-legend-items"></ul>
      <div class="territory-key"><span><i class="key-area"></i>势力范围 <i class="key-area guerrilla"></i>根据地 / 游击区</span><strong>示例范围仅为大致范围，不代表精确边界。</strong><span>重叠表示控制交错或阶段差异；未着色处不表示无势力。</span></div>
      <p class="map-hint">滚轮缩放 · 拖动平移 · 点击色块查依据</p>
-    </aside>
+     </div>
+    </details>
     <div class="map-actions">
      <button id="reset-map-btn" class="map-overlay quiet-button">复位地图</button>
      <details class="map-overlay map-controls"><summary>图层</summary><div class="layer-options"><label><input id="layer-toggle-polygons" type="checkbox" checked> 势力范围与名称</label><label><input id="layer-toggle-routes" type="checkbox" checked> 战略方向示意</label><label><input id="layer-toggle-articles" type="checkbox" checked> 篇目相关地点</label><label><input id="layer-toggle-events" type="checkbox" checked> 历史事件地点</label></div><p class="small muted" id="map-item-count"></p></details>

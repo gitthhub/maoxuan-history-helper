@@ -460,11 +460,29 @@ summary:hover {
   position:absolute;
   left:12px;
   z-index:650;
-  padding:12px;
+  padding:0;
   overflow:auto;
   overscroll-behavior:contain;
   scrollbar-width:thin;
 }
+.map-overview > summary,.map-legend > summary {
+  position:sticky;
+  top:0;
+  z-index:1;
+  min-height:44px;
+  padding:12px;
+  font-size:12px;
+  font-weight:600;
+  line-height:20px;
+  background:color-mix(in srgb,var(--card) 90%,transparent);
+  border-radius:8px;
+}
+.map-overview > summary:focus-visible,.map-legend > summary:focus-visible {
+  outline:2px solid var(--red);
+  outline-offset:-3px;
+}
+.map-overview:not([open]),.map-legend:not([open]) {width:max-content;max-height:none;}
+.map-overlay-content {padding:0 12px 12px;}
 .map-overview {
   top:12px;
   width:330px;
@@ -477,7 +495,6 @@ summary:hover {
   max-width:calc(100% - 76px);
   max-height:43%;
 }
-.map-legend h3 {font-size:12px;margin:0 0 8px;}
 #map-legend-items {
   list-style:none;
   padding:0;
@@ -1186,7 +1203,8 @@ html.dark .leaflet-tile-pane {
     max-height:760px;
     flex:none;
   }
-  .map-overview,.map-legend {left:8px;padding:10px;}
+  .map-overview,.map-legend {left:8px;}
+  .map-overlay-content {padding:0 10px 10px;}
   .map-overview {top:8px;max-width:calc(100% - 94px);}
   .map-legend {width:260px;}
   .map-actions {top:8px;right:8px;}

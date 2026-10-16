@@ -444,6 +444,14 @@ document.addEventListener('click',event=>{
   if(!event.target.closest('.search-wrap'))closeSearch();
 });
 function bindControls() {
+  const mapCards=[...document.querySelectorAll('.map-overview,.map-legend')];
+  const mobileLayout=window.matchMedia('(max-width: 900px)');
+  mapCards.forEach(card=>{card.open=!mobileLayout.matches;});
+  // Compact the cards when entering the mobile layout, but preserve the
+  // reader's choices across era changes, map resets and ordinary resizes.
+  mobileLayout.addEventListener('change',event=>{
+    if(event.matches)mapCards.forEach(card=>{card.open=false;});
+  });
   $('global-search-input').addEventListener('input',search);$('global-search-input').addEventListener('focus',search);
   $('global-search-input').addEventListener('keydown',event=>{if(event.key==='ArrowDown'||event.key==='Enter'){const button=$('search-results-dropdown').querySelector('button');if(button&&!$('search-results-dropdown').hidden){event.preventDefault();button.focus();}}});
   $('search-results-dropdown').addEventListener('keydown',event=>{const buttons=[...$('search-results-dropdown').querySelectorAll('button')],index=buttons.indexOf(document.activeElement);if(['ArrowDown','ArrowUp'].includes(event.key)){event.preventDefault();buttons[(index+(event.key==='ArrowDown'?1:-1)+buttons.length)%buttons.length]?.focus();}});
